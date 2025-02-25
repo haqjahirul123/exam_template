@@ -67,7 +67,7 @@ while not command.casefold() in ["q", "x"]:
                 g.clear(player.pos_x, player.pos_y)  # Remove item from grid
 
         else:
-            print("You hit a wall! Move towards others Direction")  # Feedback to player
+            print("You hit a wall! Move towards other Directions")  # Feedback message to player
 
 
 # Hit kommer vi när while-loopen slutar
