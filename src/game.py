@@ -7,6 +7,12 @@ from . import pickups
 player = Player(16, 5)
 score = 0
 inventory = []
+directions = {
+    "d": (1, 0),   # Right
+    "a": (-1, 0),  # Left
+    "w": (0, -1),  # Up
+    "s": (0, 1)    # Down
+}
 
 g = Grid()
 g.set_player(player)
@@ -34,13 +40,33 @@ while not command.casefold() in ["q", "x"]:
         # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
         maybe_item = g.get(player.pos_x + 1, player.pos_y)
         player.move(1, 0)
+    # jahirul-move
+    elif command == "a" and player.can_move(-1, 0, g):  # Move Left
+        maybe_item = g.get(player.pos_x - 1, player.pos_y)
+        player.move(-1, 0)
 
-        if isinstance(maybe_item, pickups.Item):
-            # we found something
-            score += maybe_item.value
-            print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
-            #g.set(player.pos_x, player.pos_y, g.empty)
-            g.clear(player.pos_x, player.pos_y)
+    elif command == "w" and player.can_move(0, -1, g):  # Move Up
+        maybe_item = g.get(player.pos_x, player.pos_y - 1)
+        player.move(0, -1)
+
+    elif command == "s" and player.can_move(0, 1, g):  # Move Down
+        maybe_item = g.get(player.pos_x, player.pos_y + 1)
+        player.move(0, 1)
+
+    if command in directions:
+        dx, dy = directions[command]
+        if player.can_move(dx, dy, g):  # Only move if not a wall
+            maybe_item = g.get(player.pos_x + dx, player.pos_y + dy)
+            player.move(dx, dy)
+
+            if isinstance(maybe_item, pickups.Item):
+                # We found an item
+                score += maybe_item.value
+                inventory.append(maybe_item.name)  # Add to inventory
+                print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
+                g.clear(player.pos_x, player.pos_y)  # Remove item from grid
+            else:
+                print("You hit a wall!")  # Feedback to player
 
 
 # Hit kommer vi när while-loopen slutar
