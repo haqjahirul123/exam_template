@@ -65,8 +65,9 @@ while not command.casefold() in ["q", "x"]:
                 inventory.append(maybe_item.name)  # Add to inventory
                 print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
                 g.clear(player.pos_x, player.pos_y)  # Remove item from grid
-            else:
-                print("You hit a wall!")  # Feedback to player
+
+        else:
+            print("You hit a wall! Move towards others Direction")  # Feedback to player
 
 
 # Hit kommer vi när while-loopen slutar
