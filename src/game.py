@@ -1,3 +1,5 @@
+from pyexpat.errors import messages
+
 from .grid import Grid
 from .player import Player
 from . import pickups
@@ -7,6 +9,7 @@ from . import pickups
 player = Player(16, 5)
 score = 0
 inventory = []
+content_message=""
 directions = {
     "d": (1, 0),   # Right
     "a": (-1, 0),  # Left
@@ -25,6 +28,8 @@ def print_status(game_grid):
     """Visa spelvärlden och antal poäng."""
     print("--------------------------------------")
     print(f"You have {score} points.")
+    if command == "i":
+        print(content_message)
     print(game_grid)
 
 
@@ -63,6 +68,16 @@ while not command.casefold() in ["q", "x"]:
                 # We found an item
                 score += maybe_item.value
                 inventory.append(maybe_item.name)  # Add to inventory
+                if not inventory: # Add to inventory by Jahirul
+                    content_message = "There are no items."
+                elif len(inventory) == 1:
+                    content_message = f"There is 1 item named {inventory[0]}."
+                elif len(inventory) == 2:
+                    content_message = f"There are 2 items named {inventory[0]} and {inventory[1]}."
+                else:
+                    content_message = f"There are {len(inventory)} items named {', '.join(inventory[:-1])}, and {inventory[-1]}."
+
+
                 print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
                 g.clear(player.pos_x, player.pos_y)  # Remove item from grid
 
