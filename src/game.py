@@ -9,6 +9,7 @@ from . import pickups
 player = Player(16, 5)
 score = 0
 inventory = []
+new_command =[]
 content_message=""
 directions = {
     "d": (1, 0),   # Right
@@ -22,15 +23,32 @@ g.set_player(player)
 g.make_walls()
 pickups.randomize(g)
 
+# The floor is lava - for every step you take, you must lose 1 point.--by jahirul
+def losse_point(new_comm):
+    init_value = {"d": 0, "a": 0, "w": 0, "s": 0}  # Dictionary to store key counts
+
+    # Count occurrences of each command letter
+    for com in new_comm:
+        if com in init_value:  # Check if it's a valid key
+            init_value[com] += 1
+
+    total_move = sum(init_value.values())  # Calculate total moves
+    total_point = score - total_move - len(inventory)  # Calculate total score points
+
+    print(f"you have total {total_point} score with {total_move} wrong move")
+
+
 
 # TODO: flytta denna till en annan fil
 def print_status(game_grid):
     """Visa spelvärlden och antal poäng."""
+    print(game_grid)
     print("--------------------------------------")
     print(f"You have {score} points.")
+
     if command == "i":
         print(content_message)
-    print(game_grid)
+
 
 
 command = "a"
@@ -40,7 +58,7 @@ while not command.casefold() in ["q", "x"]:
 
     command = input("Use WASD to move, Q/X to quit. ")
     command = command.casefold()[:1]
-
+    new_command.append(command)
     if command == "d" and player.can_move(1, 0, g):  # move right
         # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
         maybe_item = g.get(player.pos_x + 1, player.pos_y)
@@ -57,7 +75,7 @@ while not command.casefold() in ["q", "x"]:
     elif command == "s" and player.can_move(0, 1, g):  # Move Down
         maybe_item = g.get(player.pos_x, player.pos_y + 1)
         player.move(0, 1)
-
+    losse_point(new_command)
     if command in directions:
         dx, dy = directions[command]
         if player.can_move(dx, dy, g):  # Only move if not a wall
