@@ -24,7 +24,7 @@ g.make_walls()
 pickups.randomize(g)
 
 # The floor is lava - for every step you take, you must lose 1 point.--by jahirul
-def losse_point(new_comm):
+def losse_point(new_comm,current_score):
     init_value = {"d": 0, "a": 0, "w": 0, "s": 0}  # Dictionary to store key counts
 
     # Count occurrences of each command letter
@@ -33,10 +33,9 @@ def losse_point(new_comm):
             init_value[com] += 1
 
     total_move = sum(init_value.values())  # Calculate total moves
-    total_point = score - total_move - len(inventory)  # Calculate total score points
+    total_point = current_score - total_move   # Calculate total score points
 
-    print(f"you have total {total_point} score with {total_move} wrong move")
-
+    print(f"you have total {total_point} score with {total_move}  move")
 
 
 # TODO: flytta denna till en annan fil
@@ -75,7 +74,7 @@ while not command.casefold() in ["q", "x"]:
     elif command == "s" and player.can_move(0, 1, g):  # Move Down
         maybe_item = g.get(player.pos_x, player.pos_y + 1)
         player.move(0, 1)
-    losse_point(new_command)
+   # losse_point(new_command)
     if command in directions:
         dx, dy = directions[command]
         if player.can_move(dx, dy, g):  # Only move if not a wall
@@ -102,6 +101,6 @@ while not command.casefold() in ["q", "x"]:
         else:
             print("You hit a wall! Move towards other Directions")  # Feedback message to player
 
-
+    losse_point(new_command,score)
 # Hit kommer vi när while-loopen slutar
 print("Thank you for playing!")
