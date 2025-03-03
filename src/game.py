@@ -95,7 +95,7 @@ while not command.casefold() in ["q", "x"]:
                     content_message = f"There are {len(inventory)} items named {', '.join(inventory[:-1])}, and {inventory[-1]}."
 
 
-                print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
+                print(f"You found a {', '.join(inventory[:-1])}, and {inventory[-1]}, with +{score} points.")
                 g.clear(player.pos_x, player.pos_y)  # Remove item from grid
 
         else:

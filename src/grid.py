@@ -53,6 +53,18 @@ class Grid:
             self.set(j, 0, self.wall)
             self.set(j, self.height - 1, self.wall)
 
+        # Create horizontal walls with gaps--@jahirul
+        for y in range(2, self.height - 2, 3):  # Every 3rd row, starting from 2
+                for x in range(2, self.width - 2):
+                    if x % 5 != 0:  # Leave gaps every 5th column
+                        self.set(x, y, self.wall)
+
+        # Create vertical walls with gaps-- @jahirul
+        for x in range(4, self.width - 4, 6):  # Every 6th column, starting from 4
+                for y in range(1, self.height - 1):
+                    if y % 4 != 0:  # Leave gaps every 4th row
+                        self.set(x, y, self.wall)
+
 
     # Används i filen pickups.py
     def get_random_x(self):
