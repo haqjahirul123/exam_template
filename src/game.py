@@ -61,19 +61,19 @@ while not command.casefold() in ["q", "x"]:
     if command == "d" and player.can_move(1, 0, g):  # move right
         # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
         maybe_item = g.get(player.pos_x + 1, player.pos_y)
-        player.move(1, 0)
+        #player.move(1, 0)
     # jahirul-move
     elif command == "a" and player.can_move(-1, 0, g):  # Move Left
         maybe_item = g.get(player.pos_x - 1, player.pos_y)
-        player.move(-1, 0)
+        #player.move(-1, 0)
 
     elif command == "w" and player.can_move(0, -1, g):  # Move Up
         maybe_item = g.get(player.pos_x, player.pos_y - 1)
-        player.move(0, -1)
+        #player.move(0, -1)
 
     elif command == "s" and player.can_move(0, 1, g):  # Move Down
         maybe_item = g.get(player.pos_x, player.pos_y + 1)
-        player.move(0, 1)
+        #player.move(0, 1)
    # losse_point(new_command)
     if command in directions:
         dx, dy = directions[command]
